@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "226210556279",
+    "firebase_url": "https://hughsargram.firebaseio.com",
+    "project_id": "hughsargram",
+    "storage_bucket": "hughsargram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226210556279:android:a60b4bfcdadc67e6d95972",
+        "android_client_info": {
+          "package_name": "com.hugh.hughsargram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "226210556279-h9gp0mpg33bqpfsvs7nucj2i3jls2c9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hugh.hughsargram",
+            "certificate_hash": "05fdba014cf32c4f53a96343c57638b85bb1a734"
+          }
+        },
+        {
+          "client_id": "226210556279-8fvtc0d8ai398tg5llmq6f5s71j106v4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMq1UMA7igbge9qkvAOkFnEGA-7wJeWZ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "226210556279-8fvtc0d8ai398tg5llmq6f5s71j106v4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
