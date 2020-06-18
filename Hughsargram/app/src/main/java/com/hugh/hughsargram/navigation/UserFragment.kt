@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.hugh.hughsargram.LoginActivity
 import com.hugh.hughsargram.MainActivity
 import com.hugh.hughsargram.R
+import com.hugh.hughsargram.navigation.model.AlarmDTO
 import com.hugh.hughsargram.navigation.model.ContentDTO
 import com.hugh.hughsargram.navigation.model.FollowDTO
 import kotlinx.android.synthetic.main.activity_main.*
@@ -169,7 +170,7 @@ class UserFragment : Fragment() {
                 followDTO = FollowDTO()
                 followDTO!!.followerCount = 1
                 followDTO!!.followers[currentUserUid!!] = true
-
+                followerAlarm(uid!!)
                 transaction.set(tsDocFollower, followDTO!!)
                 return@runTransaction
             }
@@ -182,12 +183,23 @@ class UserFragment : Fragment() {
                 // It cancel my follower when I don't follow a third person
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
 
             }
             transaction.set(tsDocFollower, followDTO!!)
             return@runTransaction
         }
 
+    }
+
+    fun followerAlarm(destinationUid: String){
+        var alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.kind = 2
+        alarmDTO.timestamp = System.currentTimeMillis()
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     //    - firestore에서 profileImages라는 컬렉션으로부터 내 uid의 document를 읽어옴

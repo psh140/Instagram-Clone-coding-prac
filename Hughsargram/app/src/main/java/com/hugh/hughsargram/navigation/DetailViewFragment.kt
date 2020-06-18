@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.hugh.hughsargram.R
+import com.hugh.hughsargram.navigation.model.AlarmDTO
 import com.hugh.hughsargram.navigation.model.ContentDTO
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
@@ -116,6 +117,7 @@ class DetailViewFragment :Fragment(){
                 var intent = Intent(v.context, CommentActivity::class.java)
 //                - contentUidList[position]: 내가 선택한 이미지의 uid값이 담김
                 intent.putExtra("contentUid", contentUidList[position])
+                intent.putExtra("destinationUid", contentDTOs[position].uid)
                 startActivity(intent)
             }
         }
@@ -140,10 +142,23 @@ class DetailViewFragment :Fragment(){
                     // When the button is not clicked
                     contentDTO.favoriteCount = contentDTO?.favoriteCount + 1
                     contentDTO.favorites[uid!!] = true
+                    favoriteAlarm(contentDTOs[position].uid!!)
                 }
 //                - 이 트랜젝션을 다시 서버로 돌려주는 코드
                 transaction.set(tsDoc,contentDTO)
             }
+        }
+
+        fun favoriteAlarm(destinationUid: String){
+            val alarmDTO = AlarmDTO() //메세지를 보낼 객체
+            alarmDTO.destinationUid = destinationUid
+            alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+            alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+            alarmDTO.kind = 0
+            alarmDTO.timestamp = System.currentTimeMillis()
+
+            //alarmDTO에 데이터베이스에 넣을 정보들을 담은 후 FirebaseFirestore에 이 객체를 넘김
+            FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
         }
     }
 
