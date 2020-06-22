@@ -14,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.hugh.hughsargram.R
 import com.hugh.hughsargram.navigation.model.AlarmDTO
 import com.hugh.hughsargram.navigation.model.ContentDTO
+import com.hugh.hughsargram.navigation.util.FcmPush
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_detail.view.*
 
@@ -159,6 +160,9 @@ class DetailViewFragment :Fragment(){
 
             //alarmDTO에 데이터베이스에 넣을 정보들을 담은 후 FirebaseFirestore에 이 객체를 넘김
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+            var message = FirebaseAuth.getInstance()?.currentUser?.email + getString(R.string.alarm_favorite)
+            FcmPush.instance.sendMessage(destinationUid, "Hughstagram", message)
         }
     }
 

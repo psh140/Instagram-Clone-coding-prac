@@ -13,9 +13,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.hugh.hughsargram.navigation.*
+import com.hugh.hughsargram.navigation.util.FcmPush
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.jar.Manifest
 
@@ -75,6 +77,18 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         toolbar_title_image.visibility = View.VISIBLE
     }
 
+    fun resiterPushToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            task ->
+            var token = task.result?.token
+            var uid = FirebaseAuth.getInstance().currentUser?.uid
+            var map = mutableMapOf<String, Any>()
+            map["pushToken"] = token!!
+
+            FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map )
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -88,6 +102,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         //메인 화면으로 DetailViewFragment가 보이도록 하는 부분
         bottom_navigation.selectedItemId = R.id.action_home
+
+//        pushToken 가져오기
+        resiterPushToken()
     }
 //    - 위와 같이 MainActivity 클래스가 BottomNavigationView.OnNavigationItemSelectedListener를 상속하도록 하고
 //      onNavigationItemSelected 메소드를 오버라이드 해줌

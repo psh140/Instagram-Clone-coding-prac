@@ -10,5 +10,5 @@ data class PushDTO(
     )
 }
 
-//to - push를 받는사람으 토큰아이디
+//to - push를 받는사람의 토큰아이디
 //body - push 메세지의 주 내용

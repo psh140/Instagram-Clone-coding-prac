@@ -23,6 +23,7 @@ import com.hugh.hughsargram.R
 import com.hugh.hughsargram.navigation.model.AlarmDTO
 import com.hugh.hughsargram.navigation.model.ContentDTO
 import com.hugh.hughsargram.navigation.model.FollowDTO
+import com.hugh.hughsargram.navigation.util.FcmPush
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
@@ -200,6 +201,9 @@ class UserFragment : Fragment() {
         alarmDTO.kind = 2
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+        var message = auth?.currentUser?.email + getString(R.string.alarm_follow)
+        FcmPush.instance.sendMessage(destinationUid, "Hughstagram", message)
     }
 
     //    - firestore에서 profileImages라는 컬렉션으로부터 내 uid의 document를 읽어옴
